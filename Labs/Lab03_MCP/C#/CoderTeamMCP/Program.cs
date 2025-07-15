@@ -29,9 +29,9 @@ var gitHubToken = Environment.GetEnvironmentVariable("GITHUB_PERSONAL_ACCESS_TOK
 var clientTransport = new StdioClientTransport(new StdioClientTransportOptions
 {
     Name = "MCPServer",
-    Command = "podman",
-    Arguments = ["run", "-i", "--rm", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "ghcr.io/github/github-mcp-server"],
-    EnvironmentVariables = new() { { "GITHUB_PERSONAL_ACCESS_TOKEN", gitHubToken } },
+    Command = "npx",
+    Arguments = ["-y", "@modelcontextprotocol/server-github"],
+    EnvironmentVariables =  new() {{ "GITHUB_PERSONAL_ACCESS_TOKEN", gitHubToken }},
 });
 
 var mcpClient = await McpClientFactory.CreateAsync(clientTransport);
