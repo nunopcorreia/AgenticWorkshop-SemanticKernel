@@ -32,7 +32,7 @@ if (string.IsNullOrEmpty(endpoint) || string.IsNullOrEmpty(openAIAPIKey) || stri
 
 // Create a kernel with Azure OpenAI chat completion
 //Full list of Supported Connectors: https://learn.microsoft.com/en-us/semantic-kernel/get-started/supported-languages?pivots=programming-language-csharp
-var builder = Kernel.CreateBuilder().AddAzureOpenAIChatCompletion(modelId, endpoint, googleAPIKey);
+var builder = Kernel.CreateBuilder().AddAzureOpenAIChatCompletion(modelId, endpoint, openAIAPIKey);
 
 // Add enterprise components
 builder.Services.AddLogging(services => services.AddConsole().SetMinimumLevel(LogLevel.Warning));

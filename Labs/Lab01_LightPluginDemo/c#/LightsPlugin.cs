@@ -7,10 +7,10 @@ public class LightsPlugin
    // Mock data for the lights
    private readonly List<LightModel> lights = new()
    {
-      new LightModel { Id = 1, Name = "Main Stage", IsOn = false, Brightness = Brightness.Medium, Color = "#FFFFFF" },
-      new LightModel { Id = 2, Name = "Second Stage", IsOn = false, Brightness = Brightness.High, Color = "#FF0000" },
-      new LightModel { Id = 3, Name = "Outside", IsOn = false, Brightness = Brightness.Low, Color = "#FFFF00"  },
-      new LightModel { Id = 4, Name = "Entrance", IsOn = true, Brightness = Brightness.Low, Color = "#FFFF00"  },
+      new LightModel { Id = 1, Name = "Main Stage", IsOn = false, IsBlinking = false, Brightness = Brightness.Medium, Color = "#FFFFFF" },
+      new LightModel { Id = 2, Name = "Second Stage", IsOn = false, IsBlinking = true, Brightness = Brightness.High, Color = "#FF0000" },
+      new LightModel { Id = 3, Name = "Outside", IsOn = false, IsBlinking = false, Brightness = Brightness.Low, Color = "#FFFF00"  },
+      new LightModel { Id = 4, Name = "Entrance", IsOn = true, IsBlinking = false, Brightness = Brightness.Low, Color = "#FFFF00"  },
    };
 
    [KernelFunction("get_lights")]
@@ -36,6 +36,24 @@ public class LightsPlugin
 
       return light;
    }
+
+   [KernelFunction("change_blinking")]
+   [Description("Changes the blinking state of the light")]
+   public async Task<LightModel?> ChangeBlinkingAsync(int id, bool isBlinking)
+   { 
+      var light = lights.FirstOrDefault(light => light.Id == id);
+
+      if (light == null)
+      {
+         return null;
+      }
+
+      // Update the light with the new state
+      light.IsBlinking = isBlinking;
+
+      return light;
+   } 
+
 
    [KernelFunction("change_color")]
    [Description("Changes the color of the light by passing the RGB color hex code")]
@@ -89,6 +107,10 @@ public class LightModel
    [JsonPropertyName("color")]
    [Description("The color of the light with a hex code (ensure you include the # symbol)")]
    public string? Color { get; set; }
+   
+   [JsonPropertyName("is_blinking")]
+   public bool? IsBlinking { get; set; } 
+
 }
 
 
